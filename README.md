@@ -284,3 +284,127 @@ FileUtils.copyFile(screenshot, new File("screenshot.png"));
 I often integrate this into a utility method and call it in @AfterMethod when a test fails, storing screenshots with timestamps or test names for reporting."
 
 # selenium
+Excellent — let’s go deeper with **scenario-based Selenium questions** *and* include relevant **Java/TestNG concepts** that automation testers are often grilled on in interviews.
+
+---
+
+## 🔹 **Selenium Scenario-Based Questions**
+
+---
+
+### 🔹 Q16: **How do you handle `StaleElementReferenceException` in Selenium?**
+
+✅ **Answer:**
+
+> "`StaleElementReferenceException` occurs when the DOM has changed after the element was located — like after a page refresh, AJAX load, or DOM manipulation.
+>
+> I handle it by re-locating the element inside a try-catch or using a loop to retry:
+>
+> ```java
+> WebElement element = driver.findElement(By.id("refreshable"));
+> try {
+>     element.click();
+> } catch (StaleElementReferenceException e) {
+>     element = driver.findElement(By.id("refreshable"));
+>     element.click();
+> }
+> ```
+>
+> I also use **explicit waits** to ensure the element is present or clickable before interacting."
+
+---
+
+### 🔹 Q17: **How do you perform scrolling in Selenium WebDriver?**
+
+✅ **Answer:**
+
+> "I use JavaScriptExecutor for scrolling, especially when elements are off-screen:
+>
+> ```java
+> JavascriptExecutor js = (JavascriptExecutor) driver;
+> js.executeScript("arguments[0].scrollIntoView(true);", element);
+> ```
+>
+> For page-level scrolling:
+>
+> ```java
+> js.executeScript("window.scrollBy(0,500)");
+> ```
+>
+> Scrolling is often required in pages with infinite loading or lazy-loaded elements."
+
+---
+
+### 🔹 Q18: **How do you handle date pickers in Selenium?**
+
+✅ **Answer:**
+
+> "For date pickers, if it's a simple input box, I send keys directly:
+>
+> ```java
+> driver.findElement(By.id("date")).sendKeys("2024-05-28");
+> ```
+>
+> For complex calendar widgets, I:
+>
+> * Click the calendar input
+> * Use locators to find and click the right month/year/day
+> * Use loops and conditions to navigate between months if needed"
+
+---
+
+## 🔹 **Java/TestNG Concept Questions**
+
+---
+
+### 🔹 Q19: **What are the different TestNG annotations and their execution order?**
+
+✅ **Answer:**
+
+> "TestNG provides lifecycle annotations to control test flow:
+>
+> * `@BeforeSuite`, `@AfterSuite`: Run once before/after the entire suite
+> * `@BeforeTest`, `@AfterTest`: Run before/after `<test>` in XML
+> * `@BeforeClass`, `@AfterClass`: Run once before/after the first and last test in a class
+> * `@BeforeMethod`, `@AfterMethod`: Run before/after **each** test method
+> * `@Test`: Marks a test method
+>
+> The typical order is:
+> `@BeforeSuite` → `@BeforeTest` → `@BeforeClass` → `@BeforeMethod` → `@Test` → `@AfterMethod` → `@AfterClass` → `@AfterTest` → `@AfterSuite`"
+
+---
+
+### 🔹 Q20: **What is the difference between `priority` and `dependsOnMethods` in TestNG?**
+
+✅ **Answer:**
+
+> "`priority` defines the execution order of tests. Lower priority runs first:
+>
+> ```java
+> @Test(priority = 1)
+> public void loginTest() {}
+>
+> @Test(priority = 2)
+> public void dashboardTest() {}
+> ```
+>
+> `dependsOnMethods` ensures one test runs **only if** another passes:
+>
+> ```java
+> @Test
+> public void login() {}
+>
+> @Test(dependsOnMethods = "login")
+> public void dashboard() {}
+> ```
+>
+> This is useful for dependent flows like login → verify account → logout."
+
+---
+
+Would you like more questions on:
+
+* **Java basics for test automation** (OOP, collections)?
+* **Selenium Grid / Parallel testing**?
+* Or some **mini test case exercises** (e.g., write test steps or XPath challenges)?
+
